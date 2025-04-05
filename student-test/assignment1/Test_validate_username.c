@@ -1,6 +1,10 @@
 #include "unity.h"
 #include <stdbool.h>
+#include <unistd.h>
+#include <fcntl.h>
 #include <stdlib.h>
+#include <string.h>
+#include <assert.h>
 #include "../../examples/autotest-validate/autotest-validate.h"
 #include "../../assignment-autotest/test/assignment1/username-from-conf-file.h"
 
@@ -18,5 +22,24 @@ void test_validate_my_username()
      * TODO: Replace the line below with your code here as described above to verify your /conf/username.txt 
      * config file and my_username() functions are setup properly
      */
-    TEST_ASSERT_TRUE_MESSAGE(false,"AESD students, please fix me!");
+    const char *username = my_username();
+    int fd = open("conf/username.txt",
+	          O_RDONLY);
+    if(fd == -1){
+        perror("open");
+	exit(EXIT_FAILURE);
+    }
+    else{
+	int len = strlen(username);    
+	char *buff = (char*)malloc(len + 1);
+    	ssize_t bytes_read = read(fd, buff, len);
+	if(bytes_read == -1){
+	    perror("read");
+	}
+	else{
+	    //printf("username: %s, config_name: %s\n", username, buff);		
+	    assert(strcmp(username, buff) == 0);
+	}
+	close(fd);
+    }
 }
