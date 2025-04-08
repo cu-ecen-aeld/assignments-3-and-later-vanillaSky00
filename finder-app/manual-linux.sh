@@ -36,7 +36,7 @@ if [ ! -e ${OUTDIR}/linux-stable/arch/${ARCH}/boot/Image ]; then
     #git checkout ${KERNEL_VERSION}
 
     # TODO: Add your kernel build steps here
-	make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} mrproper
+    make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} mrproper
     make ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} defconfig
     make -j4 ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} all
     make -j4 ARCH=${ARCH} CROSS_COMPILE=${CROSS_COMPILE} modules
@@ -51,7 +51,7 @@ echo "Creating the staging directory for the root filesystem"
 cd "$OUTDIR"
 if [ -d "${OUTDIR}/rootfs" ]
 then
-	echo "Deleting rootfs directory at ${OUTDIR}/rootfs and starting over"
+    echo "Deleting rootfs directory at ${OUTDIR}/rootfs and starting over"
     sudo rm  -rf ${OUTDIR}/rootfs
 fi
 
@@ -65,12 +65,12 @@ mkdir -p /var/log
 cd ${OUTDIR}
 if [ ! -d "${OUTDIR}/busybox" ]
 then
-	git clone git://busybox.net/busybox.git
+    git clone git://busybox.net/busybox.git
     cd busybox
     git checkout ${BUSYBOX_VERSION}
     # TODO:  Configure busybox
-	make distclean
-	make defconfig
+    make distclean
+    make defconfig
 else
     cd busybox
 fi
@@ -98,8 +98,8 @@ sudo mknod -m 666 dev/null c 1 3
 sudo mknod -m 666 dev/console c 5 1
 
 # TODO: Clean and build the writer utility
-cd $SCRIPT_PATH
-echo "SCRIPT_PATH is $SCRIPT_PATH"
+cd $FINDER_APP_DIR 
+echo "SCRIPT_PATH is $FINDER_APP_DIR "
 echo "CROSS_COMPILE is $CROSS_COMPILE"
 make clean
 make CROSS_COMPILE=$CROSS_COMPILE
@@ -114,7 +114,7 @@ sed -i 's|writer.sh|writer|g' ${OUTDIR}/rootfs/home/finder-test.sh
 sed -i 's|./finder.sh|sh finder.sh|g' ${OUTDIR}/rootfs/home/finder-test.sh
 
 # TODO: Chown the root directory 
-
+sudo chown -R root:root ${OUTDIR}/rootfs
 
 # TODO: Create initramfs.cpio.gz for booting
 cd ${OUTDIR}/rootfs
