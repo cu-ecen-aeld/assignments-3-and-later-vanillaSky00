@@ -93,7 +93,7 @@ cp $libcpath/lib64/libm.so.6 $OUTDIR/rootfs/lib64/
 cp $libcpath/lib64/libresolv.so.2 $OUTDIR/rootfs/lib64/
 cp $libcpath/lib64/libc.so.6 $OUTDIR/rootfs/lib64/
 
-# TODO: Make device nodes: /dev/mull and /dev/console
+# TODO: Make device nodes: ${OUTDIR}/rootfs/dev/mull and ${OUTDIR}/rootfs/dev/console
 sudo mknod -m 666 dev/null c 1 3
 sudo mknod -m 666 dev/console c 5 1
 
