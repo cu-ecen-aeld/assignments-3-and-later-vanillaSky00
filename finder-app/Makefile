@@ -10,7 +10,7 @@ all: $(TARGET)
 
 # Rule to build the target
 $(TARGET): $(OBJ)
-	$(CC) $(CFLAGS) -o $@ $^
+	$(CC) $(CFLAGS) $^ -o $@ 
 
 # Rule to compile .c to .o
 %.o: %.c
